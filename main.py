@@ -1,4 +1,5 @@
 import math
+from nodo import nodo
 
 class Graph:
     def __init__(self):
@@ -37,9 +38,14 @@ class Graph:
                 return True
         return False
 
+    def compactness(self):
+        for node in self.probs:
+            if node in self.graph[node]: pass
+
+
     def printGraph(self):
         for node in self.graph:
-            print("Adjacency list of vertex {}: {}".format(node, self.graph[node]))
+            print("Adjacency list {}: {}".format(node, self.graph[node]))
         print(self.probs)
 
 
