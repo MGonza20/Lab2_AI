@@ -37,7 +37,6 @@ class Graph:
                 nodee = nodo(node, [edge], [], None)
                 self.graph.append(nodee)
 
-
     def addProb(self, node, prob):
         nObj = [obj for obj in self.graph if obj.value == node]
         parent_s = len(nObj[0].parent)
@@ -49,7 +48,12 @@ class Graph:
         else:
             nObj[0].probabilities = prob
 
-
+    def checkConections(self):
+        for node in self.graph:
+            if not (len(node.parent) > 0 or len(node.dependencies) > 0):
+                return False
+        return True
+        
 
 graph = Graph()
 graph.addEdge("A", "C")
@@ -58,20 +62,15 @@ graph.addEdge("C", "D")
 graph.addEdge("C", "E")
 graph.addEdge("D", None)
 graph.addEdge("E", None)
-graph.addProb("A", [0.5])
+print(graph.checkConections())
+# graph.addProb("E", [0.2, 0.5])
 
-for j in graph.graph:
-    print("val: ", j.value, "probs: ", j.probabilities)
+# for j in graph.graph:
+#     print("val: ", j.value, "probs: ", j.probabilities)
 
 # for j in graph.graph:
 #     print("val: ", j.value, "dep: ", j.dependencies, "parent: ", j.parent)
 
- 
-#     def checkConections(self):
-#         for node in self.graph:
-#             if len(self.graph[node]) > 0:
-#                 return True
-#         return False
 
 #     def getKey(self, dict, value):
 #         for key in dict:
