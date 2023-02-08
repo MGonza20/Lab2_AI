@@ -9,8 +9,11 @@ class Graph:
         if len(self.graph) > 0:
             # En caso de que no dxista el nodo se crea ese nodo 
             nObj = [obj for obj in self.graph if obj.value == node]
+            # En caso de que no se envie un nodo como parametro
+            if not node:
+                raise ValueError("Debes colocar un nodo")
             # En caso de que no exista el nodo se crea ese nodo 
-            if not any(node == obj.value for obj in self.graph):
+            elif not any(node == obj.value for obj in self.graph):
                 if not edge: 
                     nodee = nodo(node, [], [], None)
                     self.graph.append(nodee) 
@@ -33,6 +36,8 @@ class Graph:
             if not edge:
                 nodee = nodo(node, [], [], None)
                 self.graph.append(nodee) 
+            elif not node:
+                raise ValueError("Debes colocar un nodo")
             else:
                 nodee = nodo(node, [edge], [], None)
                 self.graph.append(nodee)
@@ -53,6 +58,18 @@ class Graph:
             if not (len(node.parent) > 0 or len(node.dependencies) > 0):
                 return False
         return True
+
+
+    def compactness(self):
+        for node in self.graph:
+            if node.parent and not node.dependencies:
+                for node in node.parent:
+                    print()
+            elif node.parent and not node.dependencies:
+                pass
+            elif node.parent and node.dependencies:
+                pass
+
         
 
 graph = Graph()
@@ -68,37 +85,6 @@ print(graph.checkConections())
 # for j in graph.graph:
 #     print("val: ", j.value, "probs: ", j.probabilities)
 
-# for j in graph.graph:
-#     print("val: ", j.value, "dep: ", j.dependencies, "parent: ", j.parent)
+for j in graph.graph:
+    print("val: ", j.value, "dep: ", j.dependencies, "parent: ", j.parent)
 
-
-#     def getKey(self, dict, value):
-#         for key in dict:
-#             if value in dict[key]:
-#                 return key
-
-#     def compactness(self):
-#         for node in self.probs:
-#             print(node)
-#             if node in self.graph[node]: 
-#                 print(node, self.getKey(self.graph, node))
-
-
-#     def printGraph(self):
-#         for node in self.graph:
-#             print("Adjacency list {}: {}".format(node, self.graph[node]))
-#         print(self.probs)
-
-
-
-# graph = Graph()
-# graph.addEdge("B", "A")
-# graph.addEdge("A", "C")
-# graph.addEdge("C", "A")
-# graph.addEdge("A", "D")
-# graph.addEdge("D", "E")
-# # graph.addProb("A", [0, 0.5, 1, 0.99999])
-
-# print(graph.graph)
-# # graph.compactness()
-# # graph.printGraph() 
