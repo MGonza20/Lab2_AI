@@ -13,6 +13,7 @@ class Graph:
             if not any(node == obj.value for obj in self.graph): 
                 nodee = nodo(node, [edge], [], None)
                 self.graph.append(nodee) 
+                # Añadiendo nodos padre
                 for nodeG in self.graph:
                     if nodee.value in nodeG.dependencies:
                         nodee.parent.append(nodeG.value)
