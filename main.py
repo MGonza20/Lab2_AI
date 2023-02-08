@@ -24,6 +24,23 @@ class Graph:
             nodee = nodo(node, [edge], [], None)
             self.graph.append(nodee)
 
+    def notInRange(self, listt):
+        for i in listt:
+            if i < 0 or i > 1:
+                return True
+        return False
+
+    def addProb(self, node, prob):
+        nObj = [obj for obj in self.graph if obj.value == node]
+        dep = nObj[0].dependencies  
+
+        if len(prob) != math.pow(2, dep):
+             raise ValueError("No contiene todas las probabilidades necesarias")
+        elif self.notInRange(prob):
+             raise ValueError("Las números deben encontrarse en un rango de 0 y 1")
+        else:
+            nObj[0].probabilities = prob
+
 
 graph = Graph()
 graph.addEdge(2, 1)
@@ -34,25 +51,7 @@ graph.addEdge(1, 3)
 for j in graph.graph:
     print(j.value, j.dependencies)
 
-
-#     def notInRange(self, listt):
-#         for i in listt:
-#             if i < 0 or i > 1:
-#                 return True
-#         return False
-
-#     def addProb(self, node, prob):
-#         dep = 0 # dependencias
-#         for key in self.graph:
-#             if node in self.graph[key]:
-#                 dep += 1
-#         if len(prob) != math.pow(2, dep):
-#             raise ValueError("No contiene todas las probabilidades necesarias")
-#         elif self.notInRange(prob):
-#             raise ValueError("Las números deben encontrarse en el rango de 0 y 1")
-#         else:
-#             self.probs[node] = prob
-    
+ 
 #     def checkConections(self):
 #         for node in self.graph:
 #             if len(self.graph[node]) > 0:
