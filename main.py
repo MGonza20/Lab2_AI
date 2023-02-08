@@ -61,15 +61,14 @@ class Graph:
 
 
     def compactness(self):
+        jointList = []
         for node in self.graph:
-            if node.parent and not node.dependencies:
-                for node in node.parent:
-                    print()
-            elif node.parent and not node.dependencies:
-                pass
-            elif node.parent and node.dependencies:
-                pass
-
+            if not len(node.parent):
+                jointList.append(f"P({node.value})")
+            else:
+                concat = ",".join(node.parent)
+                jointList.append(f"P({node.value}|{concat})")
+        return("⋅".join(jointList))
         
 
 graph = Graph()
@@ -79,8 +78,9 @@ graph.addEdge("C", "D")
 graph.addEdge("C", "E")
 graph.addEdge("D", None)
 graph.addEdge("E", None)
-print(graph.checkConections())
+# print(graph.checkConections())
 # graph.addProb("E", [0.2, 0.5])
+print(graph.compactness())
 
 # for j in graph.graph:
 #     print("val: ", j.value, "probs: ", j.probabilities)
