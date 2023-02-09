@@ -79,7 +79,6 @@ class Graph:
             sim_s += nodee.parent
         sim_s.append(nodee.value)
         
-
         # Generando posibles combinaciones de simbolos + y menos 
         # dependiendo de la cantidad de nodos
         simC = itertools.product(*[['+', '-'] for sim in sim_s])
@@ -92,6 +91,10 @@ class Graph:
             key = ""
             for j in range(len(combis[i])):
                 key += combis[i][j] + sim_s[j] 
+            if len(key) <= 2:
+                key = 'P({})'.format(key)
+            else:
+                key = 'P({}|{})'.format(key[-2:], key[:-2])
             keys.append(key)        
         return keys
 
@@ -112,7 +115,10 @@ class Graph:
             raise ValueError("Hay un error")
         else:
             for i, k in enumerate(keys):
-                keyC[k] = allP[i]
+                if len(k) <= 2:
+                    keyC[k] = allP[i]
+                else:
+                    keyC[k] = allP[i]
         return keyC
 
 
@@ -138,6 +144,7 @@ graph.addProb("J", [0.9, 0.05])
 graph.addProb("M", [0.7, 0.01])
 
 print(graph.allFactors())
+# print(graph.genKeys("A"))
 
 # for j in graph.graph:
 #     print("val: ", j.value, "probs: ", j.probabilities)
