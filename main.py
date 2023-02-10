@@ -127,6 +127,21 @@ class Graph:
         for node in self.graph:
             factors[node.value] = self.nodeFactors(node.value)
         return factors
+
+
+    def mm(self, m1, m2):
+        l_M1 = len(m1)
+        l_M1_in, l_M2_in = len(m1[0]), len(m2[0])
+        matrixR = []
+
+        for rM1 in range(l_M1):
+            new = []
+            for cM2 in range(l_M2_in):
+                new.append(sum(m1[rM1][rM2] * m2[rM2][cM2] for rM2 in range(l_M1_in)))
+            matrixR = matrixR + [new]
+        return matrixR
+
+    
     
 
 graph = Graph()
@@ -143,7 +158,7 @@ graph.addProb("A", [0.95, 0.94, 0.29, 0.001])
 graph.addProb("J", [0.9, 0.05])
 graph.addProb("M", [0.7, 0.01])
 
-print(graph.allFactors())
+# print(graph.allFactors())
 # print(graph.genKeys("A"))
 
 # for j in graph.graph:
