@@ -10,7 +10,7 @@ class nodo():
         self.probabilities = probabilities
 
 
-class Graph:
+class BN:
     def __init__(self):
         self.graph = []
         
