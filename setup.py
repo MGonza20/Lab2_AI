@@ -7,13 +7,13 @@ with open("README.md", "r", encoding="utf-8") as fh:
 setuptools.setup(
     name='paguaga_network',                           
     packages=['paguaga_network'],                     
-    version='0.0.1',                                
+    version='0.0.2',                                
     license='MIT',                                  
     description='Bayesian Network',
     long_description=long_description,              
     long_description_content_type="text/markdown",  
-    author='Mike Huls',
-    author_email='mikehuls42@gmail.com',
+    author='Sara Paguaga',
+    author_email='sara.paguaga@gmail.com',
     url='https://github.com/MGonza20/Lab2_AI', 
     install_requires=['requests'],                  
     keywords=["pypi", "probability", "bayes"], 
@@ -28,5 +28,5 @@ setuptools.setup(
         'Programming Language :: Python :: 3.9',
     ],
     
-    download_url="https://github.com/MGonza20/Lab2_AI/archive/refs/tags/0.0.1.tar.gz",
+    download_url="https://github.com/MGonza20/Lab2_AI/archive/refs/tags/0.0.2.tar.gz",
 )

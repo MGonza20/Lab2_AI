@@ -103,3 +103,101 @@ class BN:
             probs = {k: probD[k] for k in keysOrder if k in probD}
             nObj[0].probabilities = probs
 
+    
+    def checkConections(self):
+        for node in self.graph:
+            if not (len(node.parent) > 0 or len(node.dependencies) > 0):
+                return False
+        return True
+
+
+    def compactness(self):
+        jointList = []
+        for node in self.graph:
+            if not len(node.parent):
+                jointList.append(f"P({node.value})")
+            else:
+                concat = ",".join(node.parent)
+                jointList.append(f"P({node.value}|{concat})")
+        return("⋅".join(jointList))
+
+
+    def nodeFactors(self, node):
+        nodee = [obj for obj in self.graph if obj.value == node][0]
+        keys = self.genKeys(node)
+
+        # Calculando el complemento de las probabilidades
+        keysOrder = [x for x in self.genKeys(node) if not x.startswith('P(-')]
+        nP = nodee.probabilities
+        probs = {k: nP[k] for k in keysOrder if k in nP}
+
+        allP = []
+        for p in probs:
+            allP.append(probs[p])
+            allP.append(1-(probs[p]))
+        
+        keyC = {}
+        if len(allP) != len(keys):
+            raise ValueError("Hay un error")
+        else:
+            for i, k in enumerate(keys):
+                if len(k) <= 2:
+                    keyC[k] = allP[i]
+                else:
+                    keyC[k] = allP[i]
+        return keyC
+
+
+    def allFactors(self):
+        factors = {}
+        for node in self.graph:
+            factors[node.value] = self.nodeFactors(node.value)
+        return factors
+
+
+    def allHaveValue(self):
+        for obj in self.graph:
+            if obj.value is None:
+                return False
+        return True
+
+
+    def allHaveProbability(self):
+        for obj in self.graph:
+            if obj.probabilities is None:
+                return False
+        return True
+
+
+    def correctQuantProbs(self):
+        for obj in self.graph:
+            nObj = [n for n in self.graph if n.value == obj.value][0]
+            parent_s = len(nObj.parent)
+
+            if len(obj.probabilities) != math.pow(2, parent_s):
+                return False
+        return True
+    
+
+    def described(self):
+        allValue = self.allHaveValue()
+        allProbability = self.allHaveProbability()
+        correctProbsQuantity = self.correctQuantProbs()
+        connections = self.checkConections()
+
+        if(allValue and allProbability and correctProbsQuantity and connections):
+            return True
+        else:
+            return False
+
+
+    def enumeratee(self, query):
+            q = query[2:-1]
+            values = q.split("|")
+            cause = values[0]
+            
+            g = values[1]
+            given = [g[i:i+2] for i in range(0, len(g), 2)]
+
+            # for n in self.graph:
+            #     print(n.probabilities)
