@@ -5,9 +5,9 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name='pagnetwork',                           
-    packages=['pagnetwork'],                     
-    version='0.0.2',                                
+    name='paguaga_bn',                           
+    packages=['paguaga_bn'],                     
+    version='0.0.3',                                
     license='MIT',                                  
     description='Bayesian Network',
     long_description=long_description,              
@@ -28,5 +28,5 @@ setuptools.setup(
         'Programming Language :: Python :: 3.9',
     ],
     
-    download_url="https://github.com/MGonza20/Lab2_AI/archive/refs/tags/0.0.2.tar.gz",
+    download_url="https://github.com/MGonza20/Lab2_AI/archive/refs/tags/0.0.3.tar.gz",
 )
