@@ -71,34 +71,28 @@ class Graph:
             keys.append(key)        
         return keys
 
-    def checkKeys(self, dictt, listt):
+
+    def cKeys(self, dictt, listt):
         for k in dictt:
             if k not in listt:
                 return False
         return True
 
-    def checkKeysNeg(self, dictt):
-        for k in dictt:
-            if k[2:3] == '-':
-                return [True, k[3:4]]
-            return [False]
 
-
-    def addProb(self, node, prob, probD):
+    def addProb(self, node, probD):
         nObj = [obj for obj in self.graph if obj.value == node]
         parent_s = len(nObj[0].parent)
-        kNeg = self.checkKeysNeg(probD)
+        accepted = [x for x in self.genKeys(node) if not x.startswith('P(-')]
         
         if len(probD) != math.pow(2, parent_s):
              raise ValueError("Cantidad incorrecta de probabilidades")
-        elif not self.checkKeys(probD, self.genKeys(node)):
-            raise ValueError("Nombre de llaves/probabilidades no permitidas")
-        elif kNeg[0]:
-            raise ValueError("No puedes ingresar " + kNeg[1] + " negativo")        
+        elif not self.cKeys(probD, accepted):
+            raise ValueError("Llave(s) no permitidas")  
         elif not all(0 <= i <= 1 for i in probD.values()):
              raise ValueError("Las números deben encontrarse en un rango de 0 y 1")
         else:
-            nObj[0].probabilities = prob
+            nObj[0].probabilities = probD
+
 
     def checkConections(self):
         for node in self.graph:
@@ -123,11 +117,14 @@ class Graph:
         keys = self.genKeys(node)
 
         # Calculando el complemento de las probabilidades
-        probs = nodee.probabilities
+        keysOrder = [x for x in self.genKeys(node) if not x.startswith('P(-')]
+        nP = nodee.probabilities
+        probs = {k: nP[k] for k in keysOrder if k in nP}
+
         allP = []
         for p in probs:
-            allP.append(p)
-            allP.append(1-p)
+            allP.append(probs[p])
+            allP.append(1-(probs[p]))
         
         keyC = {}
         if len(allP) != len(keys):
@@ -145,6 +142,8 @@ class Graph:
         factors = {}
         for node in self.graph:
             factors[node.value] = self.nodeFactors(node.value)
+        # for f in factors:
+        #     print(f, factors[f])
         return factors
 
 
@@ -171,13 +170,15 @@ graph.addEdge("A", "M")
 graph.addEdge("J", None)
 graph.addEdge("M", None)
 
-graph.addProb("J", [0.001], {'P(+J|+A)': 0.01, 'P(+J|-A)': 0.01})
-# graph.addProb("T", [0.002])
-# graph.addProb("A", [0.95, 0.94, 0.29, 0.001])
-# graph.addProb("J", [0.9, 0.05])
-# graph.addProb("M", [0.7, 0.01])
+# print(graph.nodeFactors("J"))
+graph.addProb("R", {'P(+R)': 0.001})
+graph.addProb("T", {'P(+T)': 0.002})
+graph.addProb("A", {'P(+A|+R+T)': 0.95, 'P(+A|+R-T)': 0.94, 'P(+A|-R+T)': 0.29, 'P(+A|-R-T)': 0.001})
+graph.addProb("J", {'P(+J|-A)': 0.05, 'P(+J|+A)': 0.9})
+graph.addProb("M", {'P(+M|+A)': 0.7, 'P(+M|-A)': 0.01})
 
 # print(graph.allFactors())
+graph.allFactors()
 # print(graph.genKeys("A"))
 
 # for j in graph.graph:
