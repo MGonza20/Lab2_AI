@@ -5,8 +5,8 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name='paguaga_network',                           
-    packages=['paguaga_network'],                     
+    name='pagnetwork',                           
+    packages=['pagnetwork'],                     
     version='0.0.2',                                
     license='MIT',                                  
     description='Bayesian Network',
