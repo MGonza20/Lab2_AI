@@ -91,7 +91,9 @@ class Graph:
         elif not all(0 <= i <= 1 for i in probD.values()):
              raise ValueError("Las números deben encontrarse en un rango de 0 y 1")
         else:
-            nObj[0].probabilities = probD
+            keysOrder = [x for x in self.genKeys(node) if not x.startswith('P(-')]
+            probs = {k: probD[k] for k in keysOrder if k in probD}
+            nObj[0].probabilities = probs
 
 
     def checkConections(self):
@@ -159,6 +161,10 @@ class Graph:
             matrixR = matrixR + [new]
         return matrixR
 
+
+    def enumerate(self):
+        for n in self.graph:
+            print(n.probabilities)
     
     
 
@@ -177,8 +183,8 @@ graph.addProb("A", {'P(+A|+R+T)': 0.95, 'P(+A|+R-T)': 0.94, 'P(+A|-R+T)': 0.29, 
 graph.addProb("J", {'P(+J|-A)': 0.05, 'P(+J|+A)': 0.9})
 graph.addProb("M", {'P(+M|+A)': 0.7, 'P(+M|-A)': 0.01})
 
+graph.enumerate()
 # print(graph.allFactors())
-graph.allFactors()
 # print(graph.genKeys("A"))
 
 # for j in graph.graph:
