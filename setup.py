@@ -1,24 +1,32 @@
-from setuptools import setup, find_packages
+import setuptools
 
-classifiers = [
-    'Development Status :: 1 - Planning',
-    'Intended Audience :: Education',
-    'Operating System :: Microsoft :: Windows :: Windows 10',
-    'License :: OSI Approved :: MIT License',
-    'Programming Language :: Python :: 3'
-]
+# Reads the content of your README.md into a variable to be used in the setup below
+with open("README.md", "r", encoding="utf-8") as fh:
+    long_description = fh.read()
 
-v = '1.0.0'
-
-setup(
-    name='paguaganetwork',
-    version=v,
-    description='Bayesian network',
-    long_description='Library to be able to create a bayesian network',
-    author='Sara Paguaga',
-    author_email='sara.paguaga@gmail.com',
-    classifiers=classifiers,
-    keywords=['probability', 'python'],
-    packages=find_packages(),
-    install_requires=['']
+setuptools.setup(
+    name='paguaga_network',                           
+    packages=['paguaga_network'],                     
+    version='0.0.1',                                
+    license='MIT',                                  
+    description='Bayesian Network',
+    long_description=long_description,              
+    long_description_content_type="text/markdown",  
+    author='Mike Huls',
+    author_email='mikehuls42@gmail.com',
+    url='https://github.com/MGonza20/Lab2_AI', 
+    install_requires=['requests'],                  
+    keywords=["pypi", "probability", "bayes"], 
+    classifiers=[                                   
+        'Development Status :: 3 - Alpha',
+        'Intended Audience :: Developers',
+        'Topic :: Software Development :: Documentation',
+        'License :: OSI Approved :: MIT License',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+    ],
+    
+    download_url="https://github.com/MGonza20/Lab2_AI/archive/refs/tags/0.0.1.tar.gz",
 )

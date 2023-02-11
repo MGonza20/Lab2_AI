@@ -1,1 +1,3 @@
-Libreria para crear redes bayesianas.
+# Libreria para crear redes bayesianas.
+
+Permite crear redes bayesianas.
