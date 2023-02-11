@@ -1,6 +1,14 @@
 import math
-from nodo import nodo
 import itertools
+
+
+class nodo():
+    def __init__(self, value, dependencies, parent, probabilities):
+        self.value = value
+        self.parent = parent
+        self.dependencies = dependencies
+        self.probabilities = probabilities
+
 
 class Graph:
     def __init__(self):
@@ -144,27 +152,45 @@ class Graph:
         factors = {}
         for node in self.graph:
             factors[node.value] = self.nodeFactors(node.value)
-        # for f in factors:
-        #     print(f, factors[f])
         return factors
 
 
-    def mm(self, m1, m2):
-        l_M1 = len(m1)
-        l_M1_in, l_M2_in = len(m1[0]), len(m2[0])
-        matrixR = []
-
-        for rM1 in range(l_M1):
-            new = []
-            for cM2 in range(l_M2_in):
-                new.append(sum(m1[rM1][rM2] * m2[rM2][cM2] for rM2 in range(l_M1_in)))
-            matrixR = matrixR + [new]
-        return matrixR
+    def allHaveValue(self):
+        for obj in self.graph:
+            if obj.value is None:
+                return False
+        return True
 
 
-    def enumerate(self):
-        for n in self.graph:
-            print(n.probabilities)
+    def allHaveProbability(self):
+        for obj in self.graph:
+            if obj.probabilities is None:
+                return False
+        return True
+
+
+    def correctQuantProbs(self):
+        for obj in self.graph:
+            nObj = [n for n in self.graph if n.value == obj.value][0]
+            parent_s = len(nObj.parent)
+
+            if len(obj.probabilities) != math.pow(2, parent_s):
+                return False
+        return True
+    
+
+    def described(self):
+        allValue = self.allHaveValue()
+        allProbability = self.allHaveProbability()
+        correctProbsQuantity = self.correctQuantProbs()
+        connections = self.checkConections()
+
+        if(allValue and allProbability and correctProbsQuantity and connections):
+            return True
+        else:
+            return False
+
+
     
     
 
@@ -183,8 +209,7 @@ graph.addProb("A", {'P(+A|+R+T)': 0.95, 'P(+A|+R-T)': 0.94, 'P(+A|-R+T)': 0.29, 
 graph.addProb("J", {'P(+J|-A)': 0.05, 'P(+J|+A)': 0.9})
 graph.addProb("M", {'P(+M|+A)': 0.7, 'P(+M|-A)': 0.01})
 
-graph.enumerate()
-# print(graph.allFactors())
+print(graph.described())
 # print(graph.genKeys("A"))
 
 # for j in graph.graph:
